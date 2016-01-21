@@ -5,42 +5,55 @@ html, body
 
 /* Style geral */
 body
-    background: #eee
-        
+    background: #eaeaea
 
-.pure-g
-    width: 80%
-    margin: 0 auto
+span,
+a,
+p
+    font-family: Arial, sans-serif
 
 /* header */
 header
     background: #f39c12
-    padding-top: 10px
-    padding-bottom: 10px
+    padding-top: 15px
+    padding-bottom: 15px
         
-    .hd-logo a
-        font-family: Arial, sans-serif
-        font-weight: 700
-        color: #000
-        text-decoration: none
+    .hd-logo
+        text-align: center
+        
+        a
+            font-family: Arial, sans-serif
+            font-weight: 700
+            color: #fff
+            text-shadow: 0 0 7px #3A2300
+            text-decoration: none
+        
+    .icon-menu
+        display: none
+        position: absolute
+        left: 10px
+        width: 30px
+        height: 30px
+        background: url('../assets/images/menu.svg')
+        top: 9px
 
-/* pagina home */
-
-.page-home-container
-    margin-top: 20px
-    
 /* menu lateral*/
+.check-menu
+    display: none
+        
 .menu
     background: #fff
-    box-shadow: 0.5px 0.5px 6px 1px #ccc
-    border-radius: 4px
+    position: absolute
+    width: 280px
+    left: 0
+    top: 48px
+    bottom: 0
+    overflow: auto
+    z-index: 2
     
     .menu-profile
         background: #e67e22
         padding: 15px
-        border-top-left-radius: 4px
-        border-top-right-radius: 4px
-        
         span
             color: #fff
             display: block
@@ -55,9 +68,57 @@ header
         .item-friend
             display: block
             padding: 10px 15px
-            
-        .item-friend
             border-bottom: 1px solid #ddd
+            
+            a
+                color: #333
+                text-decoration: none
+                text-transform: capitalize
+                
+.map-content
+    position: absolute
+    left: 280px
+    right: 0
+    top: 48px
+    bottom: 0
+    
+@media (max-width: 991px)
+    .icon-menu
+        display: block !important
+
+    .menu
+        top: 0
+        transform: translateX(-280px)
+    
+    .menu,
+    .menu-mask,
+    .check-menu:checked ~ .menu-mask
+        -webkit-transition-duration: 0.2s
+        -moz-transition-duration: 0.2s
+        -ms-transition-duration: 0.2s
+        -o-transition-duration: 0.2s
+        transition-duration: 0.2s
         
-        .item-friend:last-child    
-            border-bottom: 0
+    .menu-mask
+        display: block
+        position: absolute
+        left: 0
+        right: 0
+        top: 0
+        bottom: 0
+        z-index: 1
+        opacity: 0
+        visibility: hidden
+        
+
+    .check-menu:checked
+        & ~ .menu
+            transform: translateX(0) !important
+        
+        & ~ .menu-mask
+            opacity: 1
+            visibility: visible
+            background: rgba(0, 0, 0, 0.42)
+
+    .map-content
+        left: 0
