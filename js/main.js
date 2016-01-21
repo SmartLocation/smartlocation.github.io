@@ -1,3 +1,6 @@
+/* global io */
+var socket = io.connect('https://smartlocation-back-evandrozanatta.c9users.io');
+
 /* global faker */
 var profileName = document.getElementById('profile-name');
 var profileLogin = document.getElementById('profile-login');
@@ -9,7 +12,14 @@ var latitude;
 function definePosition(position){
     
     var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude
+    var longitude = position.coords.longitude;
+    
+    console.log(latitude);
+    
+    var latlon = latitude + "," + longitude;  
+    
+    /* global socket */
+    socket.emit('newposition', latlon);
     
     /* global GMaps */
     var map = new GMaps({
@@ -39,5 +49,6 @@ function definePosition(position){
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(definePosition);
 } else {
+    alert('Geolocation is not supported by this browser.');
     console.log("Geolocation is not supported by this browser.");
 } 
