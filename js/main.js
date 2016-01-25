@@ -1,11 +1,31 @@
+var tokenUser = sessionStorage.getItem('tokenUser');
+
+if(tokenUser != null){
+
+    var data = null;
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    
+    xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+        var response = JSON.parse(this.responseText);
+        
+        document.getElementById('profile-name').textContent = response.data.name;
+        document.getElementById('profile-login').textContent = response.data.login;
+    }
+    });
+    
+    xhr.open("GET", "https://app-inapplet.rhcloud.com/api/?token="+tokenUser);
+    
+    xhr.send(data);
+}
+
 /* global io */
 var socket = io.connect('https://smartlocation-back-evandrozanatta.c9users.io');
 
 /* global faker */
 var profileName = document.getElementById('profile-name');
 var profileLogin = document.getElementById('profile-login');
-profileName.innerHTML = faker.name.findName();
-profileLogin.innerHTML = faker.internet.userName();
 
 var latitude;
 
