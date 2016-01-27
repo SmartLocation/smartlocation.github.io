@@ -1,33 +1,14 @@
-var tokenUser = sessionStorage.getItem('tokenUser');
+var userToken = sessionStorage.getItem('user_token');
 
-if(tokenUser != null){
-
-    var data = null;
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = false;
-    
-    xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === this.DONE) {
-        var response = JSON.parse(this.responseText);
-        
-        document.getElementById('profile-name').textContent = response.data.name;
-        document.getElementById('profile-login').textContent = response.data.login;
-    }
-    });
-    
-    xhr.open("GET", "https://app-inapplet.rhcloud.com/api/?token="+tokenUser);
-    
-    xhr.send(data);
+if(userToken == null){
+    window.location.href = "/login";
 }
 
+document.getElementById('profile-name').innerHTML = sessionStorage.getItem('user_name');
+document.getElementById('profile-login').innerHTML = sessionStorage.getItem('user_login');
+
 /* global io */
-var socket = io.connect('https://smartlocation-back-evandrozanatta.c9users.io');
-
-/* global faker */
-var profileName = document.getElementById('profile-name');
-var profileLogin = document.getElementById('profile-login');
-
-var latitude;
+var socket = io.connect('https://smartlocation-back-evandrozanatta.c9users.io:8080');
 
 function definePosition(position){
     
@@ -71,4 +52,12 @@ if (navigator.geolocation) {
 } else {
     alert('Geolocation is not supported by this browser.');
     console.log("Geolocation is not supported by this browser.");
-} 
+}
+
+/* id, name, login */
+var userUpdate =  [sessionStorage.getItem('user_id'), sessionStorage.getItem('user_name'), sessionStorage.getItem('user_login')]
+socket.emit('user_update', userUpdate);
+
+socket.on('user_signup', function (data) {
+    alert('Você foi cadastrado com sucesso');
+});
